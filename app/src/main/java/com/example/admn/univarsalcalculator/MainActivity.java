@@ -106,19 +106,19 @@ public class MainActivity extends AppCompatActivity {
                       textViev_input.setText( textViev_input.getText()+"9");
                       break;
                   case R.id.button_plus:
-                      textViev_input.setText( textViev_input.getText()+" + ");
+                      textViev_input.setText( textViev_input.getText()+"+");
                       break;
                   case R.id.button_minus:
-                      textViev_input.setText( textViev_input.getText()+" - ");
+                      textViev_input.setText( textViev_input.getText()+"-");
                       break;
                   case R.id.button_multiply:
-                      textViev_input.setText( textViev_input.getText()+" * ");
+                      textViev_input.setText( textViev_input.getText()+"×");
                       break;
                   case R.id.button_split:
-                      textViev_input.setText( textViev_input.getText()+" / ");
+                      textViev_input.setText( textViev_input.getText()+"÷");
                       break;
                   case R.id.button_point:
-                      textViev_input.setText( textViev_input.getText()+".");
+                      textViev_input.setText( textViev_input.getText()+",");
                       break;
                   case R.id.button_leftBracket:
                       textViev_input.setText( textViev_input.getText()+"(");

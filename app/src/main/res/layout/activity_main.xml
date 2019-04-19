@@ -212,7 +212,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="."
+            android:text=","
             android:textColor="@color/colorPrimaryDark"
             android:textSize="36sp"
             app:layout_column="9"
