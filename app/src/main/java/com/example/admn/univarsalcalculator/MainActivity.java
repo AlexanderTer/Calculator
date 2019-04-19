@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.admn.univarsalcalculator.coreComputing.Expression;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+                              // определение компонентов экрана по их ссылкам //
+
         textViev_input = (TextView)findViewById(R.id.textViev_input);
         textViev_result = (TextView)findViewById(R.id.textViev_result);
         button_remove = (Button)findViewById(R.id.button_remove);
@@ -69,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
         button_8      = (Button)findViewById(R.id.button_8);
         button_9      = (Button)findViewById(R.id.button_9);
 
+                                // конец определения компонентов экрана по их ссылкам //
 
+                                     // слушатеои кликов кнопок(всех) //
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
@@ -142,21 +148,25 @@ public class MainActivity extends AppCompatActivity {
 //                      result.setText( result.getText()+"2.718");
 //                      break;
 
-                  case R.id.button_remove:
+                  case R.id.button_remove:                                                           //нажали С
                       textViev_input.setText("");
                       textViev_result.setText("");
                       break;
-                  case R.id.button_equally:
-                      PolishRecord match_strok = new PolishRecord();
-                      textViev_result.setText("");
-                      textViev_result.setText(match_strok.stringToResult(textViev_input.getText().toString()));
+                  case R.id.button_equally:                                                         // нажали =
 
+                      Expression expr=new Expression(textViev_input.getText().toString());           //отпрвляем в ядро вычислений строку
+                      textViev_result.setText("");                                                   //очищаем область результата
+                      textViev_result.setText( expr.value().val.toString());                         //записываем новый результат
                       break;
 
 
               }//switch
             }//OnClick
         };//method OnClickListener обработчик нескольких кнопок
+
+                                        // конец слушателей клика кнопок//
+
+                                         // исполнители клика кнопок //
 
         button_plus.setOnClickListener(onClickListener);
         button_minus.setOnClickListener(onClickListener);
@@ -184,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
         button_9.setOnClickListener(onClickListener);
 
 
-
+                                         // конец исполнителей клика кнопок //
 
 
     }//Method onCreate
