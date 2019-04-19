@@ -6,47 +6,64 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textViev_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="14dp"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.988"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+    <android.support.design.widget.AppBarLayout
 
-    <TextView
-        android:id="@+id/textViev_result"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="118dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="15dp"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.952"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/appBarLayoutTop"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        >
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp">
+
+            <TextView
+                android:id="@+id/textViev_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:fontFamily="sans-serif-light"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:singleLine="true"
+                android:textColor="#bdbdbd"
+                android:textSize="50sp"
+
+                />
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/textViev_result"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:fontFamily="sans-serif-light"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:singleLine="true"
+
+                android:textColor="#bdbdbd"
+                android:textSize="35dp" />
+        </HorizontalScrollView>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.GridLayout
+
+
         android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViev_input">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
 
         <Button
             android:id="@+id/button_equally"
@@ -98,6 +115,7 @@
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:background="@color/colorrightButton"
+            android:fontFamily="sans-serif"
             android:text="+"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="36sp"
@@ -110,6 +128,7 @@
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:background="@color/colorrightButton"
+            android:fontFamily="sans-serif"
             android:text="-"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="36sp"
@@ -122,7 +141,9 @@
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:background="@color/colorrightButton"
+            android:fontFamily="sans-serif"
             android:text="×"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="36sp"
             app:layout_column="12"
@@ -134,7 +155,9 @@
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:background="@color/colorrightButton"
+            android:fontFamily="sans-serif"
             android:text="÷"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="36sp"
             app:layout_column="12"
@@ -146,7 +169,9 @@
             android:layout_width="100dp"
             android:layout_height="70dp"
             android:background="@color/colorrightButton"
+            android:fontFamily="sans-serif"
             android:text="C"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="36sp"
             app:layout_column="12"
@@ -212,7 +237,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text=","
+            android:text="."
             android:textColor="@color/colorPrimaryDark"
             android:textSize="36sp"
             app:layout_column="9"
@@ -241,6 +266,19 @@
             app:layout_row="38" />
 
         <Button
+            android:id="@+id/button_i"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="i"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="36sp"
+            app:layout_column="9"
+            app:layout_row="35"
+            tools:text="i" />
+
+        <Button
             android:id="@+id/button_2"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
@@ -261,6 +299,7 @@
             android:textSize="36sp"
             app:layout_column="11"
             app:layout_row="38" />
+
 
     </android.support.v7.widget.GridLayout>
 

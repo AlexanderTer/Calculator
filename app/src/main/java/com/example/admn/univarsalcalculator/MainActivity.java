@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         button_miltiply = (Button)findViewById(R.id.button_multiply);
         button_split  = (Button)findViewById(R.id.button_split);
         button_point  = (Button)findViewById(R.id.button_point);
-       // button_imaginary_unit = (Button)findViewById(R.id.button_j) ;
+        button_imaginary_unit = (Button)findViewById(R.id.button_i) ;
        // button_PI = (Button) findViewById(R.id.button_PI);
         //button_e = (Button) findViewById(R.id.button_e);
         button_leftBracket = (Button)findViewById(R.id.button_leftBracket);
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                       textViev_input.setText( textViev_input.getText()+"÷");
                       break;
                   case R.id.button_point:
-                      textViev_input.setText( textViev_input.getText()+",");
+                      textViev_input.setText( textViev_input.getText()+".");
                       break;
                   case R.id.button_leftBracket:
                       textViev_input.setText( textViev_input.getText()+"(");
@@ -138,9 +138,9 @@ public class MainActivity extends AppCompatActivity {
 //                  case R.id.button_sqrt:
 //                      result.setText( result.getText()+"√");
 //                      break;
-//                  case R.id.button_j:
-//                      result.setText( result.getText()+" i ");
-//                      break;
+                  case R.id.button_i:
+                      textViev_input.setText( textViev_input.getText()+"i");
+                     break;
 //                  case R.id.button_PI:
 //                      result.setText( result.getText()+"3.14");
 //                      break;
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
        // button_degree.setOnClickListener(onClickListener);
         //button_sqrt.setOnClickListener(onClickListener);
         button_point.setOnClickListener(onClickListener);
-       // button_imaginary_unit.setOnClickListener(onClickListener);
+        button_imaginary_unit.setOnClickListener(onClickListener);
        // button_PI.setOnClickListener(onClickListener);
        // button_e.setOnClickListener(onClickListener);
         button_zero.setOnClickListener(onClickListener);
