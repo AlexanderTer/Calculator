@@ -4,20 +4,15 @@ package com.example.admn.univarsalcalculator;
 import java.text.DecimalFormat;
 import java.util.*;
 
-public class PolishRecord {//едасс Польская запись
-    public String stringToResult(String inputString){
-        List<String> listOfValues = new LinkedList<String>(Arrays.asList(inputString.split("")));                     //преобразуем строку в лист символов без пробелов
+public class PolishRecord {
 
-        while(listOfValues.indexOf("") != -1 || listOfValues.indexOf(" ") != -1){                                        //удалем пустые строки
-            if (listOfValues.contains(" ")){
-                listOfValues.remove(" ");
-            }
-            else{
-                listOfValues.remove("");
-            }
-        }
+    public String stringToResult(String inputString){
+
+
+
         try {
-            listOfValues = clutchNumbers(listOfValues);                                                                      //цепляем рядом стоящие числа и десятичные точки
+            List listOfValues = string_to_List_conversion(inputString);
+            // listOfValues = clutchNumbers(listOfValues);                                                                      //цепляем рядом стоящие числа и десятичные точки
             listOfValues = negativeNumber(listOfValues);                                                                     //обрабатываем отрицательные числа : -1+4 -> (0-1)+4
             listOfValues = sqrt(listOfValues);                                                                               // обработка символа √
             listOfValues = unsignedMultiplication(listOfValues);                                                              //беззнаковое умножение  3( -> 3*(
@@ -30,7 +25,22 @@ public class PolishRecord {//едасс Польская запись
         }catch (Exception ex){
             return "Ошибка";
         }
-    }                      // method stringToResult
+    } // method stringToResult
+
+    private List string_to_List_conversion(String input_string){                                                       //метод разбиения строки на отдельные символы
+        List<String> listValues = new LinkedList<String>(Arrays.asList(input_string.split("")));                  //преобразуем строку в лист символов без пробелов
+
+        while(listValues.indexOf("") != -1 || listValues.indexOf(" ") != -1){                                           //удалем пустые строки
+            if (listValues.contains(" ")){
+                listValues.remove(" ");
+            }
+            else{
+                listValues.remove("");
+            }
+        }
+        listValues = clutchNumbers(listValues);                                                                          //сцепляем числа и точки
+        return listValues;
+    }//method string_to_Llist_conversion */разбиваем строку на символы/*
 
     private List clutchNumbers (List<String> ListValues){                                                               //метод соединения чисел и десятичных точек
         int i = 0;
@@ -43,7 +53,7 @@ public class PolishRecord {//едасс Польская запись
                 ListValues.remove(i+1);                                                                           //следующий за ним удаляем
                 continue;
             }
-            else if(b.equals(".")){                                                                                     //если второй символ точка
+            else if(b.equals(",")){                                                                                     //если второй символ точка
                 a =  a.concat(b).concat(ListValues.get(i+2));                                                           //соединяем а, точку и следующий символ
                 ListValues.set(i,a);                                                                                    //вместо I-того вставляем число
                 ListValues.remove(i+1);                                                                           //2 следующих за ними удаляем
@@ -53,42 +63,38 @@ public class PolishRecord {//едасс Польская запись
             i++;
         }
         return ListValues;
-    }                  //method clatchNumber */сцепляем числа и точки в одно число/*
+    }//method clatchNumber */сцепляем числа и точки в одно число/*
 
     private List negativeNumber (List<String> ListValues){ //обаботка отрицательных исел
         int i = 0;
         while (i < ListValues.size()-1){
-            String a = ListValues.get(i);                                                                             // преобразуем -1+4 в (0-1)+4
+            String a = ListValues.get(i);                                                                               // преобразуем -1+4 в (0-1)+4
             String b = ListValues.get(i+1);
-            if ((a.equals("(") || a.equals("^")|| a.equals("/")) && b.equals("-")  ||                             // если (- или ^- или -x или -(
+            if ((a.equals("(") || a.equals("^")|| a.equals("÷")) && b.equals("-")  ||                                    // если (- или ^- или -x или -(
                     a.equals("-") &&  (b.matches("-?\\d+(\\.\\d+)?") || b.equals("("))&& i==0){
 
-                if (a.equals("(") || a.equals("^")|| a.equals("/")){
-                    ListValues.remove(i+1);
-                    ListValues.add(i+2, ")");
-                    ListValues.add(i+1, "*");
-                    ListValues.add(i+1, ")");
-                    ListValues.add(i+1, "1");
-                    ListValues.add(i+1, "-");
-                    ListValues.add(i+1, "0");
-                    ListValues.add(i+1, "(");
-                    ListValues.add(i+1, "(");
+                if (a.equals("(") || a.equals("^")|| a.equals("÷")){
+                    ListValues.remove(i+1);                                                                         //удаляем -
+                    ListValues.addAll(i+1, string_to_List_conversion("((0-1)×"+ListValues.get(i+1)+")"));//вместо - -> ((0-1)*х)
+                    ListValues.remove(i+10);                                                                         //удаляем х, которое осталось дальше по строке
+                    i=i+9;                                                                                                 //начинаем проверку после ((0-1)*х)
+
+
+
                 }
                 else {
-                    ListValues.remove(i);
-                    ListValues.add(i, "*");
-                    ListValues.add(i, ")");
-                    ListValues.add(i, "1");
-                    ListValues.add(i, "-");
-                    ListValues.add(i, "0");
-                    ListValues.add(i, "(");
+                    ListValues.remove(i);                                                                                    //удаляем -
+                    ListValues.addAll(i, string_to_List_conversion("(0-1)×"));                                    //вместо - -> ((0-1)*х)
+                    i=i+5;                                                                                                    //начинаем проверку после ((0-1)*х)
+
+
                 }
             }
 
             i++;
         }
         return ListValues;
-    }                 //method negativeNumber */обработка отрицательных чисел : -х -> (0-x)/*
+    }//method negativeNumber */обработка отрицательных чисел : -х -> (0-x)/*
 
     private  List sqrt (List<String> ListValues){                                                                       //обработка знака корня
         while (ListValues.contains("√")){                                                                               // пока есть √
@@ -120,7 +126,7 @@ public class PolishRecord {//едасс Польская запись
             }
         }
         return  ListValues;
-    }                          // method sqrt */обработка знака каорня/*
+    } // method sqrt */обработка знака каорня/*
 
     private List unsignedMultiplication (List<String> ListValues){  // беззнаковое умножение
         int i = 0;
@@ -129,13 +135,13 @@ public class PolishRecord {//едасс Польская запись
             String b = ListValues.get(i+1);
             if (a.matches("-?\\d+(\\.\\d+)?") && b.equals("(") ||
                     a.equals(")") && (b.matches("-?\\d+(\\.\\d+)?") || b.equals("("))) {                          //если x(   или   )х   или )(  : беззнаковое умножение
-                ListValues.add(i + 1, "*");                                                             //довавляем умножение
+                ListValues.add(i + 1, "×");                                                             //довавляем умножение
             }
             i++;
         }
 
         return ListValues;
-    }         //method unsignedMultiplication  */беззнаковое умножение/*
+    }//method unsignedMultiplication  */беззнаковое умножение/*
 
     private List<String> polishAlgorithm (List<String> ListofValues){                                               //метод преобразования в польскую нотацию
 
@@ -156,23 +162,23 @@ public class PolishRecord {//едасс Польская запись
                     if (stack.peek().equals("T") || stack.peek().equals("(") ){                                          //если в стеке T(
                         stack.push(symbol);                                                                             //символ в стек
                     }
-                    else if (stack.peek().equals("+") || stack.peek().equals("-") || stack.peek().equals("*") ||
-                            stack.peek().equals("/")|| stack.peek().equals(("^"))){                                     //если в стеке +-*/ ^
+                    else if (stack.peek().equals("+") || stack.peek().equals("-") || stack.peek().equals("×") ||
+                            stack.peek().equals("÷")|| stack.peek().equals(("^"))){                                     //если в стеке +-*/ ^
                         polishListofValues.add(stack.pop());                                                               //верх стека в выходной лист
                         continue;                                                                                       //переходим в начало, не добавля шаг i
                     }
                 }else {
-                    if (symbol.equals("*") || symbol.equals("/")) {                                                     //если символ */
+                    if (symbol.equals("×") || symbol.equals("÷")) {                                                     //если символ */
                         if(stack.peek().equals("T") || stack.peek().equals("+") || stack.peek().equals("-") || stack.peek().equals("(")){           //если в стеке Т+(
                             stack.push(symbol);                                                                         //то символ в стек
                         }
-                        else if(stack.peek().equals("*") || stack.peek().equals("/")|| stack.peek().equals(("^"))){                                  //если в стеке */ ^
+                        else if(stack.peek().equals("×") || stack.peek().equals("÷")|| stack.peek().equals(("^"))){                                  //если в стеке */ ^
                             polishListofValues.add(stack.pop());                                                           //верх стека в выходной лист
                             continue;                                                                                   //переходим в начало, не добавля шаг i
                         }
                     }else  if (symbol.equals("^")){
                         if(stack.peek().equals("T") || stack.peek().equals("+")||stack.peek().equals("-")||
-                                stack.peek().equals("*")||  stack.peek().equals("/")||  stack.peek().equals("(")){
+                                stack.peek().equals("×")||  stack.peek().equals("÷")||  stack.peek().equals("(")){
                             stack.push(symbol);
 
                         }
@@ -183,7 +189,7 @@ public class PolishRecord {//едасс Польская запись
                         stack.push(symbol);                                                                             //символ в стек
                     }else if (symbol.equals(")")){                                                                      //если символ )
                         if(stack.peek().equals("+") || stack.peek().equals("-") ||
-                                stack.peek().equals("*") || stack.peek().equals("/")|| stack.peek().equals(("^")))     { //если в стеке +-*/
+                                stack.peek().equals("×") || stack.peek().equals("÷")|| stack.peek().equals(("^")))     { //если в стеке +-*/
                             polishListofValues.add(stack.pop());                                                           //верх стека в выходной лист
                             continue;                                                                                   //переходим в начало, не добавля шаг i
                         }else {
@@ -202,8 +208,8 @@ public class PolishRecord {//едасс Польская запись
 
 
                     else if(symbol.equals("T")){                                                                       //если смол Т
-                        if (stack.peek().equals("+") || stack.peek().equals("-") ||stack.peek().equals("*") ||
-                                stack.peek().equals("/") || stack.peek().equals("^")){//если в стеке +-*/
+                        if (stack.peek().equals("+") || stack.peek().equals("-") ||stack.peek().equals("×") ||
+                                stack.peek().equals("÷") || stack.peek().equals("^")){//если в стеке +-*/
                             polishListofValues.add(stack.pop());                                                           //верх стека в выходной лист
                             continue;                                                                                   //переходим в начало, не добавля шаг i
                         }
@@ -225,7 +231,7 @@ public class PolishRecord {//едасс Польская запись
             i++;
         }//while - конец преобразования в польскую запись
         return polishListofValues;
-    }      //method polishAlgorithm */Преобразуем лист символов в польскую нотацию/*
+    }//method polishAlgorithm */Преобразуем лист символов в польскую нотацию/*
 
     private String stackMachine (List<String> polishListofValues){                                                       //стековая машина - вычисляем выражение по польской нотации
         Stack<String> stack = new Stack<>();
@@ -236,10 +242,10 @@ public class PolishRecord {//едасс Польская запись
                 stack.push(symbol);                                                                                     //аписываем его в стек
             }
             else{                                                                                                       //если не число
-                if (symbol.equals("*")){                                                                                //если *
+                if (symbol.equals("×")){                                                                                //если *
                     stack.push(Double.toString(Double.parseDouble(stack.pop()) * Double.parseDouble(stack.pop())));  //достаём 2 верхних значения из стека, перемножаем, возвращаем результат в стек
                 }
-                else if(symbol.equals("/")){                                                                            //если /
+                else if(symbol.equals("÷")){                                                                            //если /
                     double a = Double.parseDouble(stack.pop());                                                         //дастаём из стека 1 значение
                     double b = Double.parseDouble(stack.pop());                                                         //достаём из стека значение 2
                     stack.push(Double.toString(b / a));                                                              //делим
@@ -266,8 +272,7 @@ public class PolishRecord {//едасс Польская запись
 
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(Double.parseDouble(stack.peek()));                                                                      //оставшееся в стеке - результат операций
-       // return stack.pop();
-    }         //method stackMachine */вычисление выражения по польской нотации/*
+    }//method stackMachine */вычисление выражения по польской нотации/*
 
 
 }// class PolishRecord
